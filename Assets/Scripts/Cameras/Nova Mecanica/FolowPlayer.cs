@@ -4,41 +4,20 @@ using UnityEngine;
 
 public class FolowPlayer : MonoBehaviour {
 
-	public GameObject	target;	
-	public float distanceYTarget = 1.2f;
-	public float distanceZTarget = 4f;
-
-	public float distancia;
+	public Transform	target;
+	private Vector3 offset;
 
 	// Use this for initialization
 	void Start () {
-		viewCamera01();
-	}
-	
-	// Update is called once per frame
-	void Update () {
 
+		offset = transform.position - target.position;
 	}
 
 	void LateUpdate()
 	{
-		verificarAlturaTarget();
-		transform.position = new Vector3(target.transform.position.x, distanceYTarget, target.transform.position.z - distanceZTarget);
-	}
+		Vector3 newPosition = target.position + offset;
+		transform.position = newPosition;
 
-	void verificarAlturaTarget(){
-
-		float alturaTarget = target.transform.position.y;
-		float alturCamera = transform.position.y + distanceYTarget;
-
-		distancia = alturCamera - alturaTarget;
-
-		
-	}
-
-	void viewCamera01(){
-
-		transform.position = new Vector3(target.transform.position.x, distanceYTarget + distanceYTarget, distanceZTarget);
-		transform.rotation = Quaternion.Euler(7f, 0, 0);
+		transform.LookAt(target);
 	}
 }
