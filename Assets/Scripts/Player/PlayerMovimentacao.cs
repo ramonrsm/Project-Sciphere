@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovimentacao : MonoBehaviour {
 
 	[SerializeField] private float	velocidadeMaxGiro = 25;
-	[SerializeField] private float	velocidadeMaxGiroMobile = 45;
 	[SerializeField] private float	forcaMovimento = 5;
+	[SerializeField] private float	velocidadeMaxGiroMobile = 45;
 	[SerializeField] private float	forcaMovimentoMobile = 2;
 	private Rigidbody	playerRigidbody;
 	private Vector3	    mover;
@@ -25,9 +26,7 @@ public class PlayerMovimentacao : MonoBehaviour {
 
 			FreeLookCameraRig = GameObject.Find("FreeLookCameraRig");
 
-			if(FreeLookCameraRig != null){
-				FreeLookCameraRig.transform.SendMessage("ativarControleMobile", SendMessageOptions.DontRequireReceiver);
-			}else{
+			if(FreeLookCameraRig == null){
 				Debug.Log("Aviso: FreeLookCameraRig não foi encontrado");
 				return;
 			}
@@ -58,7 +57,7 @@ public class PlayerMovimentacao : MonoBehaviour {
 	void Update () {
 
 		if(controleMobile){
-			h = -Input.acceleration.x;
+			h = Input.acceleration.x;
 			v = -Input.acceleration.z;
 		}
 		else if(controlePC){
@@ -80,7 +79,7 @@ public class PlayerMovimentacao : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		
+
 		if(controleMobile){
 			playerRigidbody.AddForce(mover * forcaMovimentoMobile);
 		}
