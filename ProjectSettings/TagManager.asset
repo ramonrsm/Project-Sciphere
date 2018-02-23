@@ -15,7 +15,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - PrimeiroPlano
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 3108623439
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

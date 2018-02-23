@@ -28,6 +28,8 @@ namespace UnityStandardAssets.Cameras
 		private Quaternion m_PivotTargetRot;
 		private Quaternion m_TransformTargetRot;
 
+        public bool controleMobile, controlePC = true;
+
         protected override void Awake()
         {
             base.Awake();
@@ -43,7 +45,13 @@ namespace UnityStandardAssets.Cameras
 
         protected void Update()
         {
-            //HandleRotationMovement();
+            if(controleMobile){
+			    HandleRotationMovementMobile();
+		    }
+		    else if(controlePC){
+                HandleRotationMovementPC();
+		    }
+
             if (m_LockCursor && Input.GetMouseButtonUp(0))
             {
                 Cursor.lockState = m_LockCursor ? CursorLockMode.Locked : CursorLockMode.None;
@@ -66,8 +74,11 @@ namespace UnityStandardAssets.Cameras
             transform.position = Vector3.Lerp(transform.position, m_Target.position, deltaTime*m_MoveSpeed);
         }
 
+        private void HandleRotationMovementMobile(){
 
-        private void HandleRotationMovement()
+        }
+
+        private void HandleRotationMovementPC()
         {
 			if(Time.timeScale < float.Epsilon)
 			return;
@@ -111,5 +122,16 @@ namespace UnityStandardAssets.Cameras
 				transform.localRotation = m_TransformTargetRot;
 			}
         }
+
+        
+        public void ativarControleMobile(){
+		    controleMobile = true;
+		    controlePC = !controleMobile;
+	    }
+
+	    public void ativarControlePC(){
+		    controlePC = true;
+		    controleMobile = !controlePC;
+	    }
     }
 }

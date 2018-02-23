@@ -11,7 +11,8 @@ public class PlayerMovimentacao : MonoBehaviour {
 	private Transform 	posCamera;
 	private Vector3 	posCameraFrente;
 
-	public bool controleMobile, controlePC;
+	private GameObject FreeLookCameraRig;
+	public bool controleMobile, controlePC = true;
 
 	private float h, v;
 
@@ -23,15 +24,29 @@ public class PlayerMovimentacao : MonoBehaviour {
         else {
             Debug.LogWarning("Aviso: nenhuma câmera principal encontrada. É precisa de uma Câmera marcada como \"MainCamera \""+
 							 "para controles relativos à câmera");
+			return;
         }
 
-		controlePC = true;
-		//controleMobile = true;
+		FreeLookCameraRig = GameObject.Find("FreeLookCameraRig");
+
+		if(FreeLookCameraRig != null){
+			FreeLookCameraRig.transform.SendMessage("ativarControleMobile", SendMessageOptions.DontRequireReceiver);
+		}else{
+			Debug.Log("Aviso: FreeLookCameraRig não foi encontrado");
+			return;
+		}
 	}
 
 	// Use this for initialization
 	void Start () {
 		
+		if(controleMobile){
+			transform.SendMessage("ativarControleMobile", true, SendMessageOptions.DontRequireReceiver);
+		}
+		else if(controlePC){
+			transform.SendMessage("ativarControlePC", true, SendMessageOptions.DontRequireReceiver);
+		}
+
 		playerRigidbody = GetComponent<Rigidbody>();
 		playerRigidbody.maxAngularVelocity = velocidadeMaxGiro;
 	}
@@ -40,8 +55,8 @@ public class PlayerMovimentacao : MonoBehaviour {
 	void Update () {
 
 		if(controleMobile){
-			h = -Input.acceleration.z;
-			v = -Input.acceleration.x;
+			h = -Input.acceleration.x;
+			v = -Input.acceleration.z;
 		}
 		else if(controlePC){
 			h = Input.GetAxis("Horizontal");
@@ -69,10 +84,12 @@ public class PlayerMovimentacao : MonoBehaviour {
 	public void ativarControleMobile(){
 		controleMobile = true;
 		controlePC = !controleMobile;
+		FreeLookCameraRig.SendMessage("ativarControleMobile", SendMessageOptions.DontRequireReceiver);
 	}
 
 	public void ativarControlePC(){
 		controlePC = true;
 		controleMobile = !controlePC;
+		FreeLookCameraRig.SendMessage("ativarControlePC", SendMessageOptions.DontRequireReceiver);
 	}
 }
