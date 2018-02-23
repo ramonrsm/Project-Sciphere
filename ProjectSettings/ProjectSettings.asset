@@ -7,7 +7,7 @@ PlayerSettings:
   productGUID: b63d9b2a75b54184f9bd8d145de3a582
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
-  defaultScreenOrientation: 4
+  defaultScreenOrientation: 2
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
@@ -158,7 +158,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.RsMDeveloper.ProjectSciphere
+    Android: com.rsmdeveloper.projectsciphere
+    Standalone: com.rsmdeveloper.projectsciphere
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19

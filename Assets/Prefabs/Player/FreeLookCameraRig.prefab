@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4253551239377816}
   - component: {fileID: 20049184742510998}
-  - component: {fileID: 92981290001042836}
   - component: {fileID: 124315262642579246}
   - component: {fileID: 81483891328182412}
   m_Layer: 0
@@ -121,7 +120,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.02
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60
   orthographic: 0
   orthographic size: 100
@@ -157,13 +156,6 @@ Rigidbody:
   m_CollisionDetection: 0
 --- !u!81 &81483891328182412
 AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1006899735557276}
-  m_Enabled: 1
---- !u!92 &92981290001042836
-Behaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
