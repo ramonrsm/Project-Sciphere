@@ -11,6 +11,10 @@ public class PlayerMovimentacao : MonoBehaviour {
 	private Transform 	posCamera;
 	private Vector3 	posCameraFrente;
 
+	public bool controleMobile, controlePC;
+
+	private float h, v;
+
 	void Awake() {
 		
 		if (Camera.main != null) {
@@ -20,6 +24,9 @@ public class PlayerMovimentacao : MonoBehaviour {
             Debug.LogWarning("Aviso: nenhuma câmera principal encontrada. É precisa de uma Câmera marcada como \"MainCamera \""+
 							 "para controles relativos à câmera");
         }
+
+		controlePC = true;
+		//controleMobile = true;
 	}
 
 	// Use this for initialization
@@ -32,8 +39,14 @@ public class PlayerMovimentacao : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		float h = Input.GetAxis("Horizontal");
-		float v = Input.GetAxis("Vertical");
+		if(controleMobile){
+			h = -Input.acceleration.z;
+			v = -Input.acceleration.x;
+		}
+		else if(controlePC){
+			h = Input.GetAxis("Horizontal");
+			v = Input.GetAxis("Vertical");
+		}
 
 		// calcular direção de movimento
         if (posCamera != null) {
@@ -51,5 +64,15 @@ public class PlayerMovimentacao : MonoBehaviour {
 	void FixedUpdate() {
 		
 		playerRigidbody.AddForce(mover * forcaMovimento);
+	}
+
+	public void ativarControleMobile(){
+		controleMobile = true;
+		controlePC = !controleMobile;
+	}
+
+	public void ativarControlePC(){
+		controlePC = true;
+		controleMobile = !controlePC;
 	}
 }
