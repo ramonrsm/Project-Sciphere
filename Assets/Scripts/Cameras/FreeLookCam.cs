@@ -29,7 +29,9 @@ namespace UnityStandardAssets.Cameras
 		private Quaternion m_PivotTargetRot;
 		private Quaternion m_TransformTargetRot;
 
+        public GameObject   gameController;
         public bool controleMobile, controlePC = true;
+        public bool tocandoJoystick;
 
         protected override void Awake()
         {
@@ -46,8 +48,11 @@ namespace UnityStandardAssets.Cameras
 
         protected void Update()
         {
+            tocandoJoystick = gameController.GetComponent<GameController>().ApertandoJoystick();
+
             if(controleMobile){
-			    HandleRotationMovementMobile();
+                
+                MoverCameraToque();
 		    }
 		    else if(controlePC){
                 HandleRotationMovementPC();
@@ -75,14 +80,23 @@ namespace UnityStandardAssets.Cameras
             transform.position = Vector3.Lerp(transform.position, m_Target.position, deltaTime*m_MoveSpeed);
         }
 
-        private void HandleRotationMovementMobile()
+        private void MoverCameraToque()
         {
+            Touch touch;
 
-            if(Input.touchCount == 1){
+            if(Input.touchCount == 1 && !tocandoJoystick){
+                touch = Input.GetTouch(0);
+                HandleRatationMovementMobile(touch);
+            }
+            else if(Input.touchCount > 1){
+                touch = Input.GetTouch(1);
+                HandleRatationMovementMobile(touch);
+            }
+        }
 
-                Touch touch = Input.GetTouch(0);
+        private void HandleRatationMovementMobile(Touch touch){
 
-                    if(touch.phase == TouchPhase.Moved){
+            if(touch.phase == TouchPhase.Moved){
                     // Read the user input
                     var x = touch.deltaPosition.x;
                     var y = touch.deltaPosition.y;
@@ -122,7 +136,6 @@ namespace UnityStandardAssets.Cameras
                         transform.localRotation = m_TransformTargetRot;
                     }
                 }
-            }
         }
 
         private void HandleRotationMovementPC()

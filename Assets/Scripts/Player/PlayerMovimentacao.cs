@@ -15,11 +15,21 @@ public class PlayerMovimentacao : MonoBehaviour {
 	private Vector3 	posCameraFrente;
 
 	public GameObject FreeLookCameraRig;
+
+	public GameObject VirtualJoystick;
 	public bool controleMobile, controlePC = true;
 
 	private float h, v;
 
 	void Awake() {
+
+		if(controleMobile){
+
+			VirtualJoystick.SetActive(true);
+		}
+		else if(controlePC){
+			VirtualJoystick.SetActive(false);
+		}
 		
 		if (Camera.main != null) {
             posCamera = Camera.main.transform;
@@ -57,8 +67,13 @@ public class PlayerMovimentacao : MonoBehaviour {
 	void Update () {
 
 		if(controleMobile){
-			h = Input.acceleration.x;
-			v = -Input.acceleration.z;
+			//h = Input.acceleration.x;
+			//v = -Input.acceleration.z;
+			h = VirtualJoystick.GetComponentInChildren<VirtualJoystick>().Horinzontal();
+			v = VirtualJoystick.GetComponentInChildren<VirtualJoystick>().Vertical();
+
+			//h = VirtualJoystick.GetComponentInChildren<Analogico>().posicaoAnalogico[0];
+			//v = VirtualJoystick.GetComponentInChildren<Analogico>().posicaoAnalogico[1];
 		}
 		else if(controlePC){
 			h = Input.GetAxis("Horizontal");
